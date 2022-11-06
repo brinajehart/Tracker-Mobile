@@ -14,8 +14,8 @@ export default ({ navigation }) => {
         dispatch(actions.login({ email, password }));
     }
 
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [email, setEmail] = useState("john.doe@gmail.com");
+    const [password, setPassword] = useState("geslo123");
 
     useEffect(() => {
         dispatch(actions.logOut()) //reset state and clear any errors

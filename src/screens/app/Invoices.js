@@ -68,6 +68,7 @@ export default ({ navigation }) => {
                 leftIcon={{ type: 'ion-icons', name: 'search', color: colors.plain }}
                 onChangeText={setSearch}
                 inputStyle={{ 'color': colors.plain }}
+                containerStyle={{ marginBottom: -15 }}
                 value={search}
             />
             <FlatList

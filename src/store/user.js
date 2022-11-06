@@ -120,7 +120,6 @@ const login = user => async dispatch => {
     try {
         const [status, response] = await Requests.login(user);
         if (status === 200) {
-            console.log("logging in....", user, response);
             dispatch(setUser({
                 email: user.email,
                 jwt: response.token,
