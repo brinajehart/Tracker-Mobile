@@ -15,7 +15,7 @@ export default function headerWithIcon({ navigation }) {
             color: '#333',
             fontWeight: 'bold',
             fontSize: 20
-          },
+        },
         headerRight: () => (
             <Ionicons
                 name={'home'} size={25} color={'#333'} style={{ marginHorizontal: 15 }}

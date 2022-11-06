@@ -3,8 +3,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import Header from '../components/Header';
-import Login from '../screens/Login';
-import Register from '../screens/Register';
+import Login from '../screens/auth/Login';
+import Register from '../screens/auth/Register';
 import { tabBarStyle } from '../assets/style';
 
 const Tab = createBottomTabNavigator();
@@ -18,7 +18,7 @@ export default function AuthNavigator() {
     return (
         <Tab.Navigator initialRouteName="Login" screenOptions={({ route }) => ({
             tabBarIcon: ({ focused, color, size }) => {
-                return <Ionicons name={routeIcons[route.name]} size={30} color={color} />
+                return <Ionicons name={routeIcons[route.name]} size={25} color={color} />
             },
             tabBarStyle
         })}

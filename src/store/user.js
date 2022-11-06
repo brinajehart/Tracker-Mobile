@@ -1,8 +1,4 @@
-import {
-    login as fetchLogin,
-    register as fetchRegister,
-    profileUpdate as fetchProfileUpdate
-} from '../api';
+import Requests from '../api';
 
 const SET_USER = 'SET_USER'
 const LOG_OUT = 'LOG_OUT'
@@ -21,7 +17,6 @@ const initialState = {
     isFetching: false,
     jwt: null,
     userId: null,
-    isAdmin: false,
     loginError: null,
     registerError: null,
     profileUpdateError: null,
@@ -36,7 +31,6 @@ const currentUser = (state = initialState, action) => {
                 isLoggedIn: true,
                 isFetching: false,
                 jwt: action.payload.jwt,
-                isAdmin: action.payload.isAdmin,
                 userId: action.payload.userId,
                 loginError: null
             }
@@ -123,13 +117,13 @@ const login = user => async dispatch => {
     dispatch({ type: SIGN_IN });
 
     try {
-        const response = await fetchLogin(user);
-        if (response) {
+        const [status, response] = await Requests.login(user);
+        if (status === 200) {
+            console.log("logging in....", user, response);
             dispatch(setUser({
                 email: user.email,
-                jwt: response.data.token,
-                isAdmin: response.data.isAdmin,
-                userId: response.data.userId
+                jwt: response.token,
+                userId: response.user.id
             }));
         } else {
             dispatch(setLoginError("Failed to login"));
@@ -143,33 +137,34 @@ const register = user => async dispatch => {
     dispatch({ type: REGISTER });
 
     try {
-        const response = await fetchRegister(user);
-        if (response) {
+        const [status, response] = await Requests.register(user);
+        if (status === 200) {
             dispatch({ type: REGISTER_COMPLETE })
             dispatch(login(user))
         } else {
             dispatch(setRegisterError("Failed to register"));
         }
     } catch (err) {
+        console.log(err);
         dispatch(setRegisterError("Failed to register"));
     }
 }
 
-const updatePorfile = (user, jwt) => async dispatch => {
-    dispatch({ type: PROFILE_UPDATE });
-
-    try {
-        const reponse = await fetchProfileUpdate(user, jwt);
-        if (reponse) {
-            dispatch({ type: PROFILE_UPDATE_COMPLETE, payload: { email: user.email } });
-        } else {
-            dispatch({ type: PROFILE_UPDATE_ERROR })
-        }
-    } catch (err) {
-        dispatch(setRegisterError("Failed to register"));
-    }
-
-}
+// const updatePorfile = (user, jwt) => async dispatch => {
+//     dispatch({ type: PROFILE_UPDATE });
+// 
+//     try {
+//         const reponse = await fetchProfileUpdate(user, jwt);
+//         if (reponse) {
+//             dispatch({ type: PROFILE_UPDATE_COMPLETE, payload: { email: user.email } });
+//         } else {
+//             dispatch({ type: PROFILE_UPDATE_ERROR })
+//         }
+//     } catch (err) {
+//         dispatch(setRegisterError("Failed to register"));
+//     }
+// 
+// }
 
 const logOut = () => {
     return {
@@ -177,4 +172,8 @@ const logOut = () => {
     }
 }
 
-export const actions = {}
+export const actions = {
+    login,
+    register,
+    logOut
+}

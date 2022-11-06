@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URI = 'http://localhost:5000/api/';
+const API_URI = 'http://localhost:5055';
 
 
 function generateFormData(jsonData) {
@@ -14,7 +14,7 @@ function generateFormData(jsonData) {
 
 class Requests {
 
-    static async login(email, password) {
+    static async login({email, password}) {
         const response = await fetch(`${API_URI}/api/v1/login`, {
             method: 'POST',
             body: generateFormData({ email, password }),
@@ -25,7 +25,7 @@ class Requests {
         return [response.status, json];
     }
 
-    static async register(fullname, email, password) {
+    static async register({fullname, email, password}) {
         const response = await fetch(`${API_URI}/api/v1/register`, {
             method: 'POST',
             body: generateFormData({ fullname, email, password }),

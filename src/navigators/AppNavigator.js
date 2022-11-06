@@ -1,33 +1,36 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
 import Header from '../components/Header';
-import Login from '../screens/Login';
+import Profile from '../screens/app/Profile';
 import { tabBarStyle } from '../assets/style';
 
 const Tab = createBottomTabNavigator();
 
 export default function AppNavigator() {
     const routeIcons = {
-        'Login': 'key'
+        Profile: 'user-cog',
+        Groups: 'layer-group',
+        Users: 'users'
     }
 
     return (
-        <Tab.Navigator initialRouteName="Login" screenOptions={({ route }) => ({
-            tabBarIcon: ({ focused, color, size }) => {
-                return <Ionicons name={routeIcons[route.name]} size={35} color={color} />
-            },
-            tabBarStyle
-        })}
+        <Tab.Navigator initialRouteName="Profile" screenOptions={({ route }) => ({
+                tabBarIcon: ({ focused, color, size }) => {
+                    return <FontAwesome5Icon name={routeIcons[route.name]} size={25} color={color} />
+                },
+                tabBarStyle
+            })}
             tabBarOptions={{
                 activeTintColor: '#333',
                 inactiveTintColor: '#999',
                 showLabel: false
             }}
-
         >
-            <Tab.Screen name="Login" component={Login} options={(props) => Header(props)} />
+            <Tab.Screen name="Profile" component={Profile} options={(props) => Header(props)} />
+            <Tab.Screen name="Users" component={Profile} options={(props) => Header(props)} />
+            <Tab.Screen name="Groups" component={Profile} options={(props) => Header(props)} />
         </Tab.Navigator>
     );
 }
