@@ -12,7 +12,7 @@ export default function Landing({ navigation }) {
     const textStyle = { color: colors.primary, fontSize: 16, fontWeight: 'bold' };
     const isLoggedIn = useSelector(state => state.user.isLoggedIn && state.user.jwt !== null);
     const dispatch = useDispatch();
-    
+
     const move = AuthScreen => {
         navigation.navigate('Auth', { screen: AuthScreen });
         // StatusBar.setBackgroundColor(colors.primary);
@@ -39,6 +39,7 @@ export default function Landing({ navigation }) {
                     titleStyle={textStyle}
                     onPress={() => move('Login')}
                 />
+                <View style={{ height: 20 }}/>
                 <Button
                     title={"Register"}
                     buttonStyle={{
@@ -46,7 +47,6 @@ export default function Landing({ navigation }) {
                         backgroundColor: 'transparent',
                         borderColor: colors.primary,
                         borderWidth: 2,
-                        marginTop: 15,
                         borderRadius: 20
                     }}
                     containerStyle={{ width: '100%' }}
@@ -101,7 +101,7 @@ export default function Landing({ navigation }) {
                     <Text style={{ ...textStyle, fontSize: 50, textAlign: 'center', marginBottom: 25, color: colors.primary }}>
                         {"Tracker"}
                     </Text>
-                    {isLoggedIn ? <UserActions/> : <AnyonymousActions/>}
+                    {isLoggedIn ? <UserActions /> : <AnyonymousActions />}
                 </View>
 
             </ImageBackground>

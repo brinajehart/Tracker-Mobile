@@ -7,6 +7,8 @@ import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import { useDebounce, includesLower } from '../../util';
 import Requests from '../../api';
 import FloatingButton from '../../components/FloatingButton';
+import Toast from 'react-native-simple-toast';
+import Moment from 'moment';
 
 export default ({ navigation }) => {
     const user = useSelector(state => state.user);
@@ -31,8 +33,16 @@ export default ({ navigation }) => {
         }
     }
 
-    function openMemberDetail(id) {
-        console.log("member detail", id);
+    async function deleteShoppingItem(id) {
+        setLoading(true);
+        const [status, response] = await Requests.deleteShoppingItem(id, user.jwt);
+        if (status != 200) {
+            Toast.show("Failed to delete shopping item!");
+            console.log('Error while deleting shopping item');
+        } else {
+            Toast.show("Succesfully deleted shopping list item!");
+            loadShoppingItems();
+        }
     }
 
     useEffect(() => {
@@ -41,19 +51,27 @@ export default ({ navigation }) => {
 
     function renderItem(item) {
         return (
-            <ListItem
+            <ListItem.Swipeable
                 key={item.id}
                 topDivider
                 onPress={() => openMemberDetail(item.id)}
                 containerStyle={{ backgroundColor: colors.dark }}
+                rightContent={
+                    <Button
+                        title=""
+                        icon={{ name: 'delete', color: 'white' }}
+                        buttonStyle={{ minHeight: '100%', backgroundColor: 'red' }}
+                        onPress={() => deleteShoppingItem(item.id)}
+                    />
+                }
             >
                 <FontAwesome5Icon name={'th-list'} size={25} color={colors.primary} />
                 <ListItem.Content>
                     <ListItem.Title style={{ color: colors.plain, fontWeight: 'bold' }}>{item.name}</ListItem.Title>
-                    <ListItem.Subtitle style={{ color: colors.plain }}>Added by: {item.fullname}</ListItem.Subtitle>
+                    <ListItem.Subtitle style={{ color: colors.plain }}>Added by: {item.fullname} - {Moment(item.created_at).format('DD.MM.YYYY')}</ListItem.Subtitle>
                 </ListItem.Content>
                 <ListItem.Chevron />
-            </ListItem>
+            </ListItem.Swipeable>
         )
     }
 

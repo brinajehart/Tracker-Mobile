@@ -8,6 +8,7 @@ import { useDebounce, includesLower } from '../../util';
 import Requests from '../../api';
 import Moment from 'moment';
 import FloatingButton from '../../components/FloatingButton';
+import Toast from 'react-native-simple-toast';
 
 export default ({ navigation }) => {
     const user = useSelector(state => state.user);

@@ -46,6 +46,16 @@ class Requests {
         const json = await response.json();
         return [response.status, json];
     }
+
+    static async deleteShoppingItem(item_id, token) {
+        const response = await fetch(`${API_URI}/api/v1/shopping-item?id=${item_id}`, {
+            method: 'DELETE',
+            headers: { 'Authorization': token }
+        });
+        if (response.status !== 200) return [response.status, null];
+        const json = await response.json();
+        return [response.status, json];
+    }
 }
 
 export default Requests;
