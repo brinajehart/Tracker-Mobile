@@ -1,4 +1,4 @@
-import axios from "axios";
+// import axios from "axios";
 
 const API_URI = 'http://localhost:5055';
 
@@ -13,6 +13,17 @@ function generateFormData(jsonData) {
 }
 
 class Requests {
+
+    static async GET(route, token) {
+        const response = await fetch(`${API_URI}/api/v1/${route}`, {
+            method: 'GET',
+            headers: { 'Authorization': token }
+        });
+        
+        if (response.status !== 200) return [response.status, null];
+        const json = await response.json();
+        return [response.status, json]; 
+    }
 
     static async login({email, password}) {
         const response = await fetch(`${API_URI}/api/v1/login`, {

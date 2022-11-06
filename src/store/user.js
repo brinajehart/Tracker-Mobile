@@ -1,4 +1,5 @@
 import Requests from '../api';
+import Toast from 'react-native-simple-toast';
 
 const SET_USER = 'SET_USER'
 const LOG_OUT = 'LOG_OUT'
@@ -127,9 +128,11 @@ const login = user => async dispatch => {
             }));
         } else {
             dispatch(setLoginError("Failed to login"));
+            Toast.show('Failed to login!');
         }
     } catch (err) {
-        dispatch(setLoginError("Failed to login"));
+        dispatch(setLoginError("Network error!"));
+        Toast.show('Network error!');
     }
 }
 
@@ -143,10 +146,11 @@ const register = user => async dispatch => {
             dispatch(login(user))
         } else {
             dispatch(setRegisterError("Failed to register"));
+            Toast.show('Failed to register!');
         }
     } catch (err) {
-        console.log(err);
-        dispatch(setRegisterError("Failed to register"));
+        dispatch(setRegisterError("Network error!"));
+        Toast.show('Network error!');
     }
 }
 

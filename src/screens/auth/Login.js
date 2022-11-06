@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { View, Text, ImageBackground } from 'react-native';
+import { View } from 'react-native';
 import { colors } from '../../assets/style';
 import { Input, Button } from 'react-native-elements';
 import { actions } from '../../store/user';
@@ -33,6 +33,7 @@ export default ({ navigation }) => {
                 leftIcon={{ type: 'ion-icons', name: 'mail', color: colors.plain }}
                 onChangeText={setEmail}
                 inputStyle={{'color': colors.plain}}
+                value={email}
             />
             <Input
                 placeholder='Password'
@@ -40,6 +41,7 @@ export default ({ navigation }) => {
                 leftIcon={{ type: 'ion-icons', name: 'lock', color: colors.plain }}
                 onChangeText={setPassword}
                 inputStyle={{'color': colors.plain}}
+                value={password}
             />
             <Button
                 title="Log in"

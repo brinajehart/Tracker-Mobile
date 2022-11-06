@@ -3,7 +3,7 @@ export const colors = {
     primary: '#ffa45b', // light orange
     plain: '#ffebdb', // almost white
     dark: '#25424c', // dark blue
-    dark2: '#294652'
+    dark2: '#294652', // dark blue 2
 }
 
 export const tabBarStyle = {
