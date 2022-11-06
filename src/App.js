@@ -5,7 +5,11 @@ import { StatusBar } from 'react-native';
 
 import AuthNavigator from './navigators/AuthNavigator';
 import AppNavigator from './navigators/AppNavigator';
-import Landing from './navigators/Landing';
+import GroupNavigator from './navigators/GroupNavigator';
+
+import Landing from './screens/Landing';
+import InvoiceEdit from './screens/InvoiceEdit';
+
 import { colors } from './assets/style';
 
 const Stack = createNativeStackNavigator();
@@ -21,6 +25,8 @@ function App() {
                 <Stack.Screen options={{ headerShown: false }} name="Landing" component={Landing} />
                 <Stack.Screen options={{ headerShown: false }} name="Auth" component={AuthNavigator} />
                 <Stack.Screen options={{ headerShown: false }} name="App" component={AppNavigator} />
+                <Stack.Screen options={{ headerShown: false }} name="Group" component={GroupNavigator} />
+                <Stack.Screen options={{ headerShown: false }} name="InvoiceEdit" component={InvoiceEdit} />
             </Stack.Navigator>
         </NavigationContainer>
     );

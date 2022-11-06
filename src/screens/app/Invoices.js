@@ -40,7 +40,7 @@ export default ({ navigation }) => {
     }, [debouncedSearch, allInvoices]);
 
     function oepnInvoice(id) {
-        console.log("open invoice called...", id);
+        navigation.getParent()?.navigate('InvoiceEdit');
     }
 
     function renderItem(item) {

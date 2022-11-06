@@ -37,7 +37,7 @@ export default ({ navigation }) => {
     }, [debouncedSearch, allGroups]);
 
     function openGroup(id) {
-        console.log("open group called...", id);
+        navigation.getParent()?.navigate('Group');
     }
 
     function renderItem(item) {
