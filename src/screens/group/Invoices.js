@@ -8,6 +8,7 @@ import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import Toast from 'react-native-simple-toast';
 import Requests from '../../api';
 import Moment from 'moment';
+import FloatingButton from '../../components/FloatingButton';
 
 export default ({ navigation }) => {
     const user = useSelector(state => state.user);
@@ -62,22 +63,25 @@ export default ({ navigation }) => {
     }
 
     return (
-        <View style={{ backgroundColor: colors.dark, flex: 1 }}>
-            <Input
-                placeholder='Search'
-                leftIcon={{ type: 'ion-icons', name: 'search', color: colors.plain }}
-                onChangeText={setSearch}
-                inputStyle={{ 'color': colors.plain }}
-                containerStyle={{ marginBottom: -15 }}
-                value={search}
-            />
-            <FlatList
-                data={invoices}
-                keyExtractor={item => item.id}
-                renderItem={({ item }) => renderItem(item)}
-                refreshing={loading}
-                onRefresh={loadInvoices}
-            />
-        </View>
+        <>
+            <View style={{ backgroundColor: colors.dark, flex: 1 }}>
+                <Input
+                    placeholder='Search'
+                    leftIcon={{ type: 'ion-icons', name: 'search', color: colors.plain }}
+                    onChangeText={setSearch}
+                    inputStyle={{ 'color': colors.plain }}
+                    containerStyle={{ marginBottom: -15 }}
+                    value={search}
+                />
+                <FlatList
+                    data={invoices}
+                    keyExtractor={item => item.id}
+                    renderItem={({ item }) => renderItem(item)}
+                    refreshing={loading}
+                    onRefresh={loadInvoices}
+                />
+            </View>
+            <FloatingButton onPress={() => console.log("add invoice")} />
+        </>
     )
 }

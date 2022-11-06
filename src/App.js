@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { StatusBar } from 'react-native';
 
 import AuthNavigator from './navigators/AuthNavigator';
@@ -20,15 +21,17 @@ function App() {
     }, []);
 
     return (
-        <NavigationContainer>
-            <Stack.Navigator initialRouteName="Landing">
-                <Stack.Screen options={{ headerShown: false }} name="Landing" component={Landing} />
-                <Stack.Screen options={{ headerShown: false }} name="Auth" component={AuthNavigator} />
-                <Stack.Screen options={{ headerShown: false }} name="App" component={AppNavigator} />
-                <Stack.Screen options={{ headerShown: false }} name="Group" component={GroupNavigator} />
-                <Stack.Screen options={{ headerShown: false }} name="InvoiceEdit" component={InvoiceEdit} />
-            </Stack.Navigator>
-        </NavigationContainer>
+        <SafeAreaProvider>
+            <NavigationContainer>
+                <Stack.Navigator initialRouteName="Landing">
+                    <Stack.Screen options={{ headerShown: false }} name="Landing" component={Landing} />
+                    <Stack.Screen options={{ headerShown: false }} name="Auth" component={AuthNavigator} />
+                    <Stack.Screen options={{ headerShown: false }} name="App" component={AppNavigator} />
+                    <Stack.Screen options={{ headerShown: false }} name="Group" component={GroupNavigator} />
+                    <Stack.Screen options={{ headerShown: false }} name="InvoiceEdit" component={InvoiceEdit} />
+                </Stack.Navigator>
+            </NavigationContainer>
+        </SafeAreaProvider>
     );
 }
 
