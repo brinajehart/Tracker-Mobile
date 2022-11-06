@@ -1,18 +1,23 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { View, Text, FlatList } from 'react-native';
-import { ListItem, Button } from 'react-native-elements';
+import { View, FlatList } from 'react-native';
+import { ListItem, Input } from 'react-native-elements';
 import { colors } from '../../assets/style';
+import { includesLower, useDebounce } from '../../util';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import Toast from 'react-native-simple-toast';
 import Requests from '../../api';
 import Moment from 'moment';
 
 export default ({ navigation }) => {
     const user = useSelector(state => state.user);
     const dispatch = useDispatch();
-    
+
     const [loading, setLoading] = useState(false);
     const [invoices, setInvoices] = useState([]);
+    const [allInvoices, setAllInvoices] = useState([]);
+    const [search, setSearch] = useState("");
+    const debouncedSearch = useDebounce(search, 500);
 
     useEffect(() => { loadInvoices() }, []);
     async function loadInvoices() {
@@ -20,12 +25,19 @@ export default ({ navigation }) => {
         const [status, response] = await Requests.GET('profile/invoices', user.jwt);
         setLoading(false);
         if (status == 200) {
-            setInvoices(response);
+            setAllInvoices(response);
         } else {
-            // show toast
+            Toast.show("Failed to load invoices!");
             console.log('Error occured while fetching invoices!', status);
         }
     }
+
+    useEffect(() => {
+        setInvoices(allInvoices.filter(invoice => {
+            if (!search) return true;
+            return includesLower(invoice.group_name, search) || `${invoice.amount}`.includes(search);
+        }))
+    }, [debouncedSearch, allInvoices]);
 
     function oepnInvoice(id) {
         console.log("open invoice called...", id);
@@ -37,7 +49,7 @@ export default ({ navigation }) => {
                 key={item.id}
                 topDivider
                 onPress={() => oepnInvoice(item.id)}
-                containerStyle={{ backgroundColor: colors.dark}}
+                containerStyle={{ backgroundColor: colors.dark }}
             >
                 <FontAwesome5Icon name={'file-invoice'} size={25} color={colors.primary} />
                 <ListItem.Content>
@@ -50,7 +62,14 @@ export default ({ navigation }) => {
     }
 
     return (
-        <View style={{ backgroundColor: colors.dark, flex: 1}}>
+        <View style={{ backgroundColor: colors.dark, flex: 1 }}>
+            <Input
+                placeholder='Search'
+                leftIcon={{ type: 'ion-icons', name: 'search', color: colors.plain }}
+                onChangeText={setSearch}
+                inputStyle={{ 'color': colors.plain }}
+                value={search}
+            />
             <FlatList
                 data={invoices}
                 keyExtractor={item => item.id}
@@ -59,6 +78,5 @@ export default ({ navigation }) => {
                 onRefresh={loadInvoices}
             />
         </View>
-        
     )
 }

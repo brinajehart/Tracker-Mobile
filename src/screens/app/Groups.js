@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { View, Text, FlatList } from 'react-native';
+import { View, FlatList } from 'react-native';
 import { colors } from '../../assets/style';
-import { Button, ListItem } from "react-native-elements";
+import { ListItem, Input } from "react-native-elements";
+import { includesLower, useDebounce } from '../../util';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import Toast from 'react-native-simple-toast';
 import Requests from '../../api';
 import Moment from 'moment';
 
@@ -13,6 +15,9 @@ export default ({ navigation }) => {
 
     const [loading, setLoading] = useState(false);
     const [groups, setGroups] = useState([]);
+    const [allGroups, setAllGroups] = useState([]);
+    const [search, setSearch] = useState("");
+    const debouncedSearch = useDebounce(search, 500);
 
     useEffect(() => { loadGroups() }, []);
     async function loadGroups() {
@@ -20,12 +25,16 @@ export default ({ navigation }) => {
         const [status, response] = await Requests.GET('profile/groups', user.jwt);
         setLoading(false);
         if (status == 200) {
-            setGroups(response);
+            setAllGroups(response);
         } else {
-            // show toast
+            Toast.show("Failed to load groups!");
             console.log('Error occured while fetching groups!', status);
         }
     }
+
+    useEffect(() => {
+        setGroups(allGroups.filter(group => !search || includesLower(group.name, search)));
+    }, [debouncedSearch, allGroups]);
 
     function openGroup(id) {
         console.log("open group called...", id);
@@ -51,6 +60,13 @@ export default ({ navigation }) => {
 
     return (
         <View style={{ backgroundColor: colors.dark, flex: 1}}>
+            <Input
+                placeholder='Search'
+                leftIcon={{ type: 'ion-icons', name: 'search', color: colors.plain }}
+                onChangeText={setSearch}
+                inputStyle={{ 'color': colors.plain }}
+                value={search}
+            />
             <FlatList
                 data={groups}
                 keyExtractor={item => item.id}
