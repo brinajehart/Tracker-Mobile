@@ -9,11 +9,13 @@ import Requests from '../../api';
 import Moment from 'moment';
 import FloatingButton from '../../components/FloatingButton';
 import Toast from 'react-native-simple-toast';
+import AddMemberModal from '../../components/modals/AddMemberModal';
 
 export default ({ navigation }) => {
     const user = useSelector(state => state.user);
-    const groupId = useSelector(state => state.edit?.groupId);
+    const groupId = useSelector(state => state.edit?.Group);
 
+    const [modalVisible, setModalVisible] = useState(false);
     const [loading, setLoading] = useState(false);
     const [members, setMembers] = useState([]);
     const [allMembers, setAllMembers] = useState([]);
@@ -33,10 +35,6 @@ export default ({ navigation }) => {
         }
     }
 
-    function openMemberDetail(id) {
-        console.log("member detail", id);
-    }
-
     useEffect(() => {
         setMembers(allMembers.filter(member => !search || includesLower(member.fullname, search)));
     }, [debouncedSearch, allMembers]);
@@ -46,7 +44,6 @@ export default ({ navigation }) => {
             <ListItem
                 key={item.id}
                 topDivider
-                onPress={() => openMemberDetail(item.id)}
                 containerStyle={{ backgroundColor: colors.dark }}
             >
                 <FontAwesome5Icon name={'user'} size={25} color={colors.primary} />
@@ -54,13 +51,13 @@ export default ({ navigation }) => {
                     <ListItem.Title style={{ color: colors.plain, fontWeight: 'bold' }}>{item.fullname}</ListItem.Title>
                     <ListItem.Subtitle style={{ color: colors.plain }}>Joined: {Moment(item.joined_at).format('DD.MM.YYYY')}</ListItem.Subtitle>
                 </ListItem.Content>
-                <ListItem.Chevron />
             </ListItem>
         )
     }
 
     return (
         <>
+            <AddMemberModal visible={modalVisible} setVisible={setModalVisible} groupId={groupId}/>
             <View style={{ backgroundColor: colors.dark, flex: 1 }}>
                 <Input
                     placeholder='Search'

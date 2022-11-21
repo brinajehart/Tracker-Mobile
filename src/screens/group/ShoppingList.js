@@ -12,7 +12,7 @@ import Moment from 'moment';
 
 export default ({ navigation }) => {
     const user = useSelector(state => state.user);
-    const groupId = useSelector(state => state.edit?.groupId);
+    const groupId = useSelector(state => state.edit?.Group);
 
     const [loading, setLoading] = useState(false);
     const [shoppingItems, setShoppingItems] = useState([]);
@@ -54,7 +54,6 @@ export default ({ navigation }) => {
             <ListItem.Swipeable
                 key={item.id}
                 topDivider
-                onPress={() => openMemberDetail(item.id)}
                 containerStyle={{ backgroundColor: colors.dark }}
                 rightContent={
                     <Button
@@ -70,10 +69,11 @@ export default ({ navigation }) => {
                     <ListItem.Title style={{ color: colors.plain, fontWeight: 'bold' }}>{item.name}</ListItem.Title>
                     <ListItem.Subtitle style={{ color: colors.plain }}>Added by: {item.fullname} - {Moment(item.created_at).format('DD.MM.YYYY')}</ListItem.Subtitle>
                 </ListItem.Content>
-                <ListItem.Chevron />
             </ListItem.Swipeable>
         )
     }
+
+    // TODO: add shopping item modal
 
     return (
         <>

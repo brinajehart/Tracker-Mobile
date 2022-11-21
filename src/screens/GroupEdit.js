@@ -7,37 +7,38 @@ import { colors } from '../assets/style';
 import Requests from '../api';
 
 export default ({ navigation }) => {
-    const invoiceId = useSelector(state => state.edit?.InvoiceEdit);
     const isLoading = useSelector(state => state.user.isFetching === true);
     const user = useSelector(state => state.user);
     const dispatch = useDispatch();
+    const groupId = useSelector(state => state.edit?.Group);
 
-    const [invoice, setInvoice] = useState();
+    const [group, setGroup] = useState();
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        if (invoiceId) {
-            loadInvoice();
+        if (groupId) {
+            loadGroup();
         }
     }, []);
     
-    async function loadInvoice() {
+    async function loadGroup() {
         setLoading(true);
-        const [status, response] = await Requests.GET(`invoice?id=${invoiceId}`, user.jwt);
+        const [status, response] = await Requests.GET(`group?id=${groupId}`, user.jwt);
         setLoading(false);
         if (status == 200) {
-            setInvoice(response);
+            delete response['members']; // remove members from object
+            setGroup(response);
         } else {
-            Toast.show("Failed to load invoice!");
-            console.log('Error occured while fetching invoice data!', status);
+            Toast.show("Failed to load group!");
+            console.log('Error occured while fetching group data!', status);
         }
     }
 
     return (
         <View style={{ flex: 1, backgroundColor: colors.dark, justifyContent: 'center', alignItems: 'center' }}>
-            {invoiceId
-                ? <Text>{JSON.stringify(invoice)}</Text>
-                : <Text>create invoice</Text>
+            {groupId
+                ? <Text>{JSON.stringify(group)}</Text>
+                : <Text>create group</Text>
             }
         </View>
     )

@@ -2,7 +2,8 @@ const SET_ID = 'SET_ID';
 const RESET = 'RESET';
 
 const initialState = {
-    groupId: null
+    Group: null,
+    InvoiceEdit: null
 }
 
 const editReducer = (state = initialState, action) => {

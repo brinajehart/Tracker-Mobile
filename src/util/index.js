@@ -18,3 +18,21 @@ export function useDebounce(value, delay) {
 
     return debouncedValue
 }
+
+const zeroPad = (num, places) => String(parseInt(Math.floor(num))).padStart(places, '0');
+const CURRENCY_CONVERSIONS = {
+    'USD': 1.02,
+    'EUR': 1,
+    'GBP': 0.87
+};
+
+export function formatAmount(amount, currency="EUR") {
+    let convertedAmount = amount, currencyPostfix = ''; 
+    if (currency in CURRENCY_CONVERSIONS) {
+        convertedAmount *= CURRENCY_CONVERSIONS[currency];
+        currencyPostfix += ` ${currency.toLocaleUpperCase()}`; 
+    }
+
+    let amountAsString = `${parseInt(Math.floor(convertedAmount/100))},${zeroPad(convertedAmount % 100, 2)}`;
+    return amountAsString + currencyPostfix;
+}

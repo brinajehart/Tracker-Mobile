@@ -10,8 +10,19 @@ import GroupNavigator from './navigators/GroupNavigator';
 
 import Landing from './screens/Landing';
 import InvoiceEdit from './screens/InvoiceEdit';
+import GroupEdit from './screens/GroupEdit';
 
 import { colors } from './assets/style';
+
+const headerOptions = {
+    headerStyle: {
+        backgroundColor: colors.primary,
+    },
+    headerTintColor: colors.dark,
+    headerTitleStyle: {
+        fontWeight: 'bold',
+    },
+};
 
 const Stack = createNativeStackNavigator();
 
@@ -28,7 +39,8 @@ function App() {
                     <Stack.Screen options={{ headerShown: false }} name="Auth" component={AuthNavigator} />
                     <Stack.Screen options={{ headerShown: false }} name="App" component={AppNavigator} />
                     <Stack.Screen options={{ headerShown: false }} name="Group" component={GroupNavigator} />
-                    <Stack.Screen options={{ headerShown: false }} name="InvoiceEdit" component={InvoiceEdit} />
+                    <Stack.Screen options={{...headerOptions, title: 'Invoice edit'}}  name="InvoiceEdit" component={InvoiceEdit} />
+                    <Stack.Screen options={{...headerOptions, title: 'Group edit'}}  name="GroupEdit" component={GroupEdit} />
                 </Stack.Navigator>
             </NavigationContainer>
         </SafeAreaProvider>

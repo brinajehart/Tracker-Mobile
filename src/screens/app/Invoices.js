@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { View, FlatList } from 'react-native';
 import { ListItem, Input } from 'react-native-elements';
 import { colors } from '../../assets/style';
-import { includesLower, useDebounce } from '../../util';
+import { includesLower, useDebounce, formatAmount } from '../../util';
+import { actions as editActions } from '../../store/edit';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import Toast from 'react-native-simple-toast';
 import Requests from '../../api';
@@ -40,6 +41,7 @@ export default ({ navigation }) => {
     }, [debouncedSearch, allInvoices]);
 
     function oepnInvoice(id) {
+        dispatch(editActions.setId('InvoiceEdit', id));
         navigation.getParent()?.navigate('InvoiceEdit');
     }
 
@@ -53,7 +55,7 @@ export default ({ navigation }) => {
             >
                 <FontAwesome5Icon name={'file-invoice'} size={25} color={colors.primary} />
                 <ListItem.Content>
-                    <ListItem.Title style={{ color: colors.plain, fontWeight: 'bold' }}>{`${item.group_name} - ${item.amount} EUR`}</ListItem.Title>
+                    <ListItem.Title style={{ color: colors.plain, fontWeight: 'bold' }}>{`${item.group_name} - ${formatAmount(item.amount)}`}</ListItem.Title>
                     <ListItem.Subtitle style={{ color: colors.plain }}>{Moment(item.date).format('DD.MM.YYYY')}</ListItem.Subtitle>
                 </ListItem.Content>
                 <ListItem.Chevron />

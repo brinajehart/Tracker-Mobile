@@ -40,8 +40,13 @@ export default ({ navigation }) => {
     }, [debouncedSearch, allGroups]);
 
     function openGroup(id) {
-        dispatch(editActions.setId('groupId', id));
+        dispatch(editActions.setId('Group', id));
         navigation.getParent()?.navigate('Group');
+    }
+
+    function createGroup() {
+        dispatch(editActions.setId('Group', null));
+        navigation.getParent()?.navigate('GroupEdit');
     }
 
     function renderItem(item) {
@@ -81,7 +86,7 @@ export default ({ navigation }) => {
                     onRefresh={loadGroups}
                 />
             </View>
-            <FloatingButton onPress={() => console.log("create group")} />
+            <FloatingButton onPress={createGroup} />
         </>
 
     )

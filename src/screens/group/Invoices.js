@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { View, FlatList } from 'react-native';
 import { ListItem, Input } from 'react-native-elements';
 import { colors } from '../../assets/style';
-import { includesLower, useDebounce } from '../../util';
+import { includesLower, useDebounce, formatAmount } from '../../util';
+import { actions as editActions } from '../../store/edit';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import Toast from 'react-native-simple-toast';
 import Requests from '../../api';
@@ -12,7 +13,8 @@ import FloatingButton from '../../components/FloatingButton';
 
 export default ({ navigation }) => {
     const user = useSelector(state => state.user);
-    const groupId = useSelector(state => state.edit?.groupId);
+    const groupId = useSelector(state => state.edit?.Group);
+    const dispatch = useDispatch();
 
     const [loading, setLoading] = useState(false);
     const [invoices, setInvoices] = useState([]);
@@ -41,6 +43,12 @@ export default ({ navigation }) => {
     }, [debouncedSearch, allInvoices]);
 
     function oepnInvoice(id) {
+        dispatch(editActions.setId('InvoiceEdit', id));
+        navigation.getParent()?.navigate('InvoiceEdit');
+    }
+
+    function createInvoice() {
+        dispatch(editActions.setId('InvoiceEdit', null));
         navigation.getParent()?.navigate('InvoiceEdit');
     }
 
@@ -54,7 +62,7 @@ export default ({ navigation }) => {
             >
                 <FontAwesome5Icon name={'file-invoice'} size={25} color={colors.primary} />
                 <ListItem.Content>
-                    <ListItem.Title style={{ color: colors.plain, fontWeight: 'bold' }}>{`${item.fullname} - ${item.amount} EUR`}</ListItem.Title>
+                    <ListItem.Title style={{ color: colors.plain, fontWeight: 'bold' }}>{`${item.fullname} - ${formatAmount(item.amount, 'USD')}`}</ListItem.Title>
                     <ListItem.Subtitle style={{ color: colors.plain }}>{Moment(item.date).format('DD.MM.YYYY')}</ListItem.Subtitle>
                 </ListItem.Content>
                 <ListItem.Chevron />
@@ -81,7 +89,7 @@ export default ({ navigation }) => {
                     onRefresh={loadInvoices}
                 />
             </View>
-            <FloatingButton onPress={() => console.log("add invoice")} />
+            <FloatingButton onPress={createInvoice} />
         </>
     )
 }
