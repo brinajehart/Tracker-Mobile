@@ -56,6 +56,37 @@ class Requests {
         const json = await response.json();
         return [response.status, json];
     }
+
+    static async addShoppingItem(token, name, group_id) {
+        const response = await fetch(`${API_URI}/api/v1/shopping-item/create`, {
+            method: 'POST',
+            headers: { 'Authorization': token },
+            body: generateFormData({ name, group_id })
+        });
+
+        if (response.status !== 200) return [response.status, null];
+        const json = await response.json();
+        return [response.status, json];
+    }
+
+    static async potentialMembers(group_id) {
+        const response = await fetch(`${API_URI}/api/v1/group/potential-members?id=${group_id}`);
+        if (response.status !== 200) return [response.status, null];
+        const json = await response.json();
+        return [response.status, json];
+    }
+
+    static async addMember(token, user_id, group_id) {
+        const response = await fetch(`${API_URI}/api/v1/group/add-user?id=${group_id}`, {
+            method: 'POST',
+            headers: { 'Authorization': token },
+            body: generateFormData({ user_id }),
+        });
+
+        if (response.status !== 200) return [response.status, null];
+        const json = await response.json();
+        return [response.status, json];
+    }
 }
 
 export default Requests;

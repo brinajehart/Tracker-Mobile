@@ -6,6 +6,7 @@ import Header from '../components/Header';
 import Login from '../screens/auth/Login';
 import Register from '../screens/auth/Register';
 import { tabBarStyle } from '../assets/style';
+import { colors } from '../assets/style';
 
 const Tab = createBottomTabNavigator();
 
@@ -23,8 +24,8 @@ export default function AuthNavigator() {
             tabBarStyle
         })}
             tabBarOptions={{
-                activeTintColor: '#eee',
-                inactiveTintColor: '#999',
+                activeTintColor: colors.plain,
+                inactiveTintColor: colors.lightGray,
                 showLabel: false
             }}
 

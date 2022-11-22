@@ -9,11 +9,13 @@ import Requests from '../../api';
 import FloatingButton from '../../components/FloatingButton';
 import Toast from 'react-native-simple-toast';
 import Moment from 'moment';
+import AddShoppingItemModal from '../../components/modals/AddShoppingItemModal';
 
 export default ({ navigation }) => {
     const user = useSelector(state => state.user);
     const groupId = useSelector(state => state.edit?.Group);
 
+    const [modalVisible, setModalVisible] = useState(false);
     const [loading, setLoading] = useState(false);
     const [shoppingItems, setShoppingItems] = useState([]);
     const [allShoppingItems, setAllShoppingItems] = useState([]);
@@ -73,10 +75,9 @@ export default ({ navigation }) => {
         )
     }
 
-    // TODO: add shopping item modal
-
     return (
         <>
+            <AddShoppingItemModal visible={modalVisible} setVisible={setModalVisible} groupId={groupId} reloadShoppingItem={loadShoppingItems} />
             <View style={{ backgroundColor: colors.dark, flex: 1 }}>
                 <Input
                     placeholder='Search'
@@ -94,7 +95,7 @@ export default ({ navigation }) => {
                     onRefresh={loadShoppingItems}
                 />
             </View>
-            <FloatingButton onPress={() => console.log("add shopping item")} />
+            <FloatingButton onPress={() => setModalVisible(true)} />
         </>
     )
 }

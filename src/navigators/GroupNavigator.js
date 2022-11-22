@@ -9,7 +9,7 @@ import Members from '../screens/group/Members';
 import ShoppingList from '../screens/group/ShoppingList';
 import Statistics from '../screens/group/Statistics';
 
-import { tabBarStyle } from '../assets/style';
+import { colors, tabBarStyle } from '../assets/style';
 
 const Tab = createBottomTabNavigator();
 
@@ -30,8 +30,8 @@ export default function GroupNavigator() {
                 tabBarStyle
             })}
             tabBarOptions={{
-                activeTintColor: '#eee',
-                inactiveTintColor: '#999',
+                activeTintColor: colors.plain,
+                inactiveTintColor: colors.lightGray,
                 showLabel: false
             }}
         >

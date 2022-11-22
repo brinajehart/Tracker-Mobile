@@ -7,6 +7,7 @@ import Profile from '../screens/app/Profile';
 import Invoices from '../screens/app/Invoices';
 import Groups from '../screens/app/Groups';
 import { tabBarStyle } from '../assets/style';
+import { colors } from '../assets/style';
 
 const Tab = createBottomTabNavigator();
 
@@ -19,14 +20,14 @@ export default function AppNavigator() {
 
     return (
         <Tab.Navigator initialRouteName="Profile" screenOptions={({ route }) => ({
-                tabBarIcon: ({ focused, color, size }) => {
-                    return <FontAwesome5Icon name={routeIcons[route.name]} size={25} color={color} />
-                },
-                tabBarStyle
-            })}
+            tabBarIcon: ({ focused, color, size }) => {
+                return <FontAwesome5Icon name={routeIcons[route.name]} size={25} color={color} />
+            },
+            tabBarStyle
+        })}
             tabBarOptions={{
-                activeTintColor: '#eee',
-                inactiveTintColor: '#999',
+                activeTintColor: colors.plain,
+                inactiveTintColor: colors.lightGray,
                 showLabel: false
             }}
         >

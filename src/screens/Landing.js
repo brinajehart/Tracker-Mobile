@@ -95,7 +95,7 @@ export default function Landing({ navigation }) {
         <View style={{ flex: 1 }}>
             <ImageBackground source={image} resizeMode="cover" style={{ flex: 1, justifyContent: "center" }}>
                 <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'flex-end', margin: 20 }}>
-                    <Text style={{ ...textStyle, fontSize: 25, textAlign: 'center', color: '#ffebdb' }}>
+                    <Text style={{ ...textStyle, fontSize: 25, textAlign: 'center', color: colors.plain }}>
                         {"Welcome to"}
                     </Text>
                     <Text style={{ ...textStyle, fontSize: 50, textAlign: 'center', marginBottom: 25, color: colors.primary }}>

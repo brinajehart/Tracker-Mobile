@@ -57,7 +57,7 @@ export default ({ navigation }) => {
 
     return (
         <>
-            <AddMemberModal visible={modalVisible} setVisible={setModalVisible} groupId={groupId}/>
+            <AddMemberModal visible={modalVisible} setVisible={setModalVisible} groupId={groupId} reloadMembers={loadMembers} />
             <View style={{ backgroundColor: colors.dark, flex: 1 }}>
                 <Input
                     placeholder='Search'
@@ -75,7 +75,7 @@ export default ({ navigation }) => {
                     onRefresh={loadMembers}
                 />
             </View>
-            <FloatingButton onPress={() => console.log("add member")} />
+            <FloatingButton onPress={() => setModalVisible(true)} />
         </>
     )
 }

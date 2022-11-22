@@ -4,6 +4,7 @@ export const colors = {
     plain: '#ffebdb', // almost white
     dark: '#25424c', // dark blue
     dark2: '#294652', // dark blue 2
+    lightGray: '#929292' // used in bottom navigators
 }
 
 export const tabBarStyle = {

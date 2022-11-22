@@ -12,13 +12,13 @@ export default function headerWithIcon({ navigation }) {
             height: 40
         },
         headerTitleStyle: {
-            color: '#333',
+            color: colors.dark,
             fontWeight: 'bold',
             fontSize: 20
         },
         headerRight: () => (
             <Ionicons
-                name={'home'} size={25} color={'#333'} style={{ marginHorizontal: 15 }}
+                name={'home'} size={25} color={colors.dark} style={{ marginHorizontal: 15 }}
                 onPress={() => navigation.getParent()?.navigate('Landing')}
             />
         ),
