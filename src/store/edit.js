@@ -19,7 +19,7 @@ const editReducer = (state = initialState, action) => {
                 ...initialState
             }
         default:
-            return initialState;
+            return state;
     }
 }
 

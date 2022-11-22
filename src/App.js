@@ -3,6 +3,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { StatusBar } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { actions } from './store/currency';
 
 import AuthNavigator from './navigators/AuthNavigator';
 import AppNavigator from './navigators/AppNavigator';
@@ -27,7 +29,10 @@ const headerOptions = {
 const Stack = createNativeStackNavigator();
 
 function App() {
+    const dispatch = useDispatch();
+
     React.useEffect(() => {
+        dispatch(actions.loadCurrencyFromStorage());
         StatusBar.setBackgroundColor(colors.primary);
     }, []);
 

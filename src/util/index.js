@@ -20,7 +20,7 @@ export function useDebounce(value, delay) {
 }
 
 const zeroPad = (num, places) => String(parseInt(Math.floor(num))).padStart(places, '0');
-const CURRENCY_CONVERSIONS = {
+export const CURRENCY_CONVERSIONS = {
     'USD': 1.02,
     'EUR': 1,
     'GBP': 0.87

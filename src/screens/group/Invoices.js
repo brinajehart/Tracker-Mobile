@@ -14,6 +14,7 @@ import FloatingButton from '../../components/FloatingButton';
 export default ({ navigation }) => {
     const user = useSelector(state => state.user);
     const groupId = useSelector(state => state.edit?.Group);
+    const currencyFromStorage = useSelector(state => state.currency.currency);
     const dispatch = useDispatch();
 
     const [loading, setLoading] = useState(false);
@@ -62,7 +63,7 @@ export default ({ navigation }) => {
             >
                 <FontAwesome5Icon name={'file-invoice'} size={25} color={colors.primary} />
                 <ListItem.Content>
-                    <ListItem.Title style={{ color: colors.plain, fontWeight: 'bold' }}>{`${item.fullname} - ${formatAmount(item.amount, 'USD')}`}</ListItem.Title>
+                    <ListItem.Title style={{ color: colors.plain, fontWeight: 'bold' }}>{`${item.fullname} - ${formatAmount(item.amount, currencyFromStorage)}`}</ListItem.Title>
                     <ListItem.Subtitle style={{ color: colors.plain }}>{Moment(item.date).format('DD.MM.YYYY')}</ListItem.Subtitle>
                 </ListItem.Content>
                 <ListItem.Chevron />
