@@ -3,8 +3,8 @@ import { ImageBackground, Text, View } from "react-native";
 import { Button } from 'react-native-elements';
 import { useDispatch, useSelector } from 'react-redux'
 import { actions } from "../store/user";
-import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import CurrencyPickerModal from "../components/modals/CurrencyPickerModal";
+import CurrencyIcon from "../components/CurrencyIcon";
 
 import { colors } from "../assets/style";
 const image = require('../assets/landing.png');
@@ -13,6 +13,7 @@ const image = require('../assets/landing.png');
 export default function Landing({ navigation }) {
     const textStyle = { color: colors.primary, fontSize: 16, fontWeight: 'bold' };
     const isLoggedIn = useSelector(state => state.user.isLoggedIn && state.user.jwt !== null);
+    const currency = useSelector(state => state.currency.currency);
     const [modalVisible, setModalVisible] = useState(false);
     const dispatch = useDispatch();
 
@@ -97,13 +98,7 @@ export default function Landing({ navigation }) {
         return (
             <View style={{ alignItems: 'flex-end', width: '100%' }}>
                 <Button
-                    icon={
-                        <MaterialIcon
-                            name="attach-money"
-                            size={35}
-                            color={colors.dark}
-                        />
-                    }
+                    icon={<CurrencyIcon currency={currency}/>}
                     title=""
                     buttonStyle={{
                         width: 60,
