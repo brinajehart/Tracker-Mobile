@@ -4,7 +4,7 @@ import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
 const IconSettings = {
-    size: 15,
+    size: 25,
     color: colors.dark
 }
 

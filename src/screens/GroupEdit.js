@@ -5,6 +5,7 @@ import { Input, Button } from 'react-native-elements';
 import Toast from 'react-native-simple-toast';
 import { colors } from '../assets/style';
 import Requests from '../api';
+import FloatingButtonSubmit from '../components/FloatingButtonSubmit';
 
 export default ({ navigation }) => {
     const isLoading = useSelector(state => state.user.isFetching === true);
@@ -20,7 +21,7 @@ export default ({ navigation }) => {
             loadGroup();
         }
     }, []);
-    
+
     async function loadGroup() {
         setLoading(true);
         const [status, response] = await Requests.GET(`group?id=${groupId}`, user.jwt);
@@ -34,12 +35,40 @@ export default ({ navigation }) => {
         }
     }
 
-    return (
-        <View style={{ flex: 1, backgroundColor: colors.dark, justifyContent: 'center', alignItems: 'center' }}>
-            {groupId
-                ? <Text>{JSON.stringify(group)}</Text>
-                : <Text>create group</Text>
+    async function handleSubmit() {
+        if (groupId) {
+            setLoading(true);
+            const [status, _] = await Requests.updateGroup(user.jwt, groupId, group.name);
+            setLoading(false);
+            if (status === 200) {
+                Toast.show('Group update success!');
+            } else {
+                Toast.show('Failed to update group!');
             }
-        </View>
+        } else {
+            setLoading(true);
+            const [status, _] = await Requests.createGroup(user.jwt, group.name);
+            setLoading(false);
+            if (status === 200) {
+                Toast.show('New group was created!');
+            } else {
+                Toast.show('Failed to create group!');
+            }
+        }
+    }
+
+    return (
+        <>
+            <View style={{ flex: 1, backgroundColor: colors.dark, justifyContent: 'flex-start', alignItems: 'center', paddingTop: 15 }}>
+                <Input
+                    onChangeText={(groupName) => setGroup({ ...group, name: groupName })}
+                    inputStyle={{ 'color': colors.plain }}
+                    containerStyle={{ marginBottom: -15 }}
+                    value={group?.name}
+                    placeholder='Group name'
+                />
+            </View>
+            <FloatingButtonSubmit onPress={handleSubmit} title={(groupId ? 'Update' : 'Create') + " group"} />
+        </>
     )
 }
