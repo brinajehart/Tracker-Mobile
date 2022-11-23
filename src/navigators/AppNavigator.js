@@ -19,7 +19,7 @@ export default function AppNavigator() {
     }
 
     return (
-        <Tab.Navigator initialRouteName="Profile" screenOptions={({ route }) => ({
+        <Tab.Navigator initialRouteName="Groups" screenOptions={({ route }) => ({
             tabBarIcon: ({ focused, color, size }) => {
                 return <FontAwesome5Icon name={routeIcons[route.name]} size={25} color={color} />
             },
@@ -31,9 +31,9 @@ export default function AppNavigator() {
                 showLabel: false
             }}
         >
-            <Tab.Screen name="Profile" component={Profile} options={(props) => Header(props)} />
-            <Tab.Screen name="Invoices" component={Invoices} options={(props) => Header(props)} />
             <Tab.Screen name="Groups" component={Groups} options={(props) => Header(props)} />
+            <Tab.Screen name="Invoices" component={Invoices} options={(props) => Header(props)} />
+            <Tab.Screen name="Profile" component={Profile} options={(props) => Header(props)} />
         </Tab.Navigator>
     );
 }

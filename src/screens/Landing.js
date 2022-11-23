@@ -76,6 +76,7 @@ export default function Landing({ navigation }) {
                     titleStyle={textStyle}
                     onPress={() => navigation.navigate('App')}
                 />
+                <View style={{ height: 20 }} />
                 <Button
                     title={"Log out"}
                     buttonStyle={{
@@ -83,7 +84,6 @@ export default function Landing({ navigation }) {
                         backgroundColor: 'transparent',
                         borderColor: colors.primary,
                         borderWidth: 2,
-                        marginTop: 15,
                         borderRadius: 20
                     }}
                     containerStyle={{ width: '100%' }}

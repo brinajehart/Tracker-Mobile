@@ -57,6 +57,7 @@ export default function ({ visible, setVisible, groupId, reloadMembers }) {
             onBackdropPress={() => setVisible(false)}>
             <Picker
                 selectedValue={newMember}
+                style={{ color: colors.plain }}
                 onValueChange={(itemValue, _) => setNewMember(itemValue)}>
                 {members.map(member => <Picker.Item key={member.id} label={member.fullname} value={member.id} />)}
             </Picker>

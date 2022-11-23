@@ -14,6 +14,7 @@ const SET_REGISTER_ERROR = 'SET_REGISTER_ERROR'
 
 const initialState = {
     email: null,
+    fullname: null,
     isLoggedIn: false,
     isFetching: false,
     jwt: null,
@@ -29,6 +30,7 @@ const currentUser = (state = initialState, action) => {
             return {
                 ...state,
                 email: action.payload.email,
+                fullname: action.payload.fullname,
                 isLoggedIn: true,
                 isFetching: false,
                 jwt: action.payload.jwt,
@@ -78,6 +80,7 @@ const currentUser = (state = initialState, action) => {
                 ...state,
                 isFetching: false,
                 email: action.payload.email,
+                fullname: action.payload.fullname,
                 profileUpdateError: null
             }
         case PROFILE_UPDATE_ERROR:
@@ -123,7 +126,8 @@ const login = user => async dispatch => {
             dispatch(setUser({
                 email: user.email,
                 jwt: response.token,
-                userId: response.user.id
+                userId: response.user.id,
+                fullname: response.user.fullname
             }));
         } else {
             dispatch(setLoginError("Failed to login"));
@@ -153,21 +157,10 @@ const register = user => async dispatch => {
     }
 }
 
-// const updatePorfile = (user, jwt) => async dispatch => {
-//     dispatch({ type: PROFILE_UPDATE });
-// 
-//     try {
-//         const reponse = await fetchProfileUpdate(user, jwt);
-//         if (reponse) {
-//             dispatch({ type: PROFILE_UPDATE_COMPLETE, payload: { email: user.email } });
-//         } else {
-//             dispatch({ type: PROFILE_UPDATE_ERROR })
-//         }
-//     } catch (err) {
-//         dispatch(setRegisterError("Failed to register"));
-//     }
-// 
-// }
+const updateProfile = (user) => async dispatch => {
+    dispatch({ type: PROFILE_UPDATE });
+    dispatch({ type: PROFILE_UPDATE_COMPLETE, payload: { email: user.email, fullname: user.fullname } });
+}
 
 const logOut = () => {
     return {
@@ -178,5 +171,6 @@ const logOut = () => {
 export const actions = {
     login,
     register,
-    logOut
+    logOut,
+    updateProfile
 }

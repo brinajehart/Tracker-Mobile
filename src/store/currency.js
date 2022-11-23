@@ -20,7 +20,6 @@ const currencyReducer = (state = initialState, action) => {
 }
 
 const setCurrency = (currency) => async dispatch => {
-    console.log('change currency', currency);
     dispatch({ type: SET_CURRENCY, payload: { currency } });
     await AsyncStorage.setItem(CURRENCY_KEY, currency);
 }
