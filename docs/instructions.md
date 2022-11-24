@@ -8,6 +8,7 @@
 
 ### Install packages
 Run `yarn` in terminal
+Run `npx react-native-asset` (has to connect some assets)
 
 ### Run the app in emulator
 Run `yarn android` in terminal - it should open the android studio emulator and install the app

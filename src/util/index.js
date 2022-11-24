@@ -26,6 +26,11 @@ export const CURRENCY_CONVERSIONS = {
     'GBP': 0.87
 };
 
+export function convertAmount(amount, currency="EUR") {
+    const convertedAmount = amount * CURRENCY_CONVERSIONS[currency];
+    return convertedAmount;
+}
+
 export function formatAmount(amount, currency="EUR") {
     let convertedAmount = amount, currencyPostfix = ''; 
     if (currency in CURRENCY_CONVERSIONS) {

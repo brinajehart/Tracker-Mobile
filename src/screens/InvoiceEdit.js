@@ -11,20 +11,20 @@ import { Form } from '../components/form';
 export default ({ navigation }) => {
     const invoiceId = useSelector(state => state.edit?.InvoiceEdit);
     const currency = useSelector(state => state.currency.currency);
-    const isLoading = useSelector(state => state.user.isFetching === true);
     const user = useSelector(state => state.user);
     const dispatch = useDispatch();
 
-    const [invoice, setInvoice] = useState({});
+    const [invoice, setInvoice] = useState({amount: 0});
     const [loading, setLoading] = useState(false);
     const [stores, setStores] = useState([]);
 
     useEffect(() => {
+        console.log(invoiceId);
         if (invoiceId) {
             loadInvoice();
             getStores();
         }
-    }, []);
+    }, [invoiceId]);
 
     async function loadInvoice() {
         setLoading(true);
@@ -60,7 +60,7 @@ export default ({ navigation }) => {
                     <Text style={formTitleStyle}>
                         Invoice data -
                         <Text style={{ color: colors.primary}}>{` ${currency}`}</Text>
-                    </Text>43
+                    </Text>
                     <View style={{ paddingVertical: 10 }}>
                         <Form.Text
                             onChangeText={(amount) => setInvoice({ ...invoice, amount })}
@@ -89,7 +89,7 @@ export default ({ navigation }) => {
                     </Text>
                 </View>
             </ScrollView>
-            <FloatingButtonSubmit onPress={handleSubmit} title={'Update invoice'} loading={loading} bottomOffset={20} />
+            <FloatingButtonSubmit onPress={handleSubmit} title={`${invoiceId ? 'Update' : 'Create'} invoice`} loading={loading} bottomOffset={20} />
         </>
 
     )
