@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Image } from 'react-native';
 
 export function includesLower(a, b) {
     const aLower = a?.toLowerCase() ?? "";
@@ -46,3 +47,26 @@ export function formatAmount(amount, currency="EUR") {
     let amountAsString = `${parseInt(Math.floor(convertedAmount/100))},${zeroPad(convertedAmount % 100, 2)}`;
     return amountAsString + currencyPostfix;
 }
+
+export function useImageAspectRatio(imageUrl) {
+    const [aspectRatio, setAspectRatio] = useState(1);
+  
+    useEffect(() => {
+      if (!imageUrl || imageUrl === '/') {
+        return;
+      }
+  
+      let isValid = true;
+      Image.getSize(imageUrl, (width, height) => {
+        if (isValid) {
+          setAspectRatio(width / height);
+        }
+      });
+  
+      return () => {
+        isValid = false;
+      };
+    }, [imageUrl]);
+  
+    return aspectRatio;
+  }

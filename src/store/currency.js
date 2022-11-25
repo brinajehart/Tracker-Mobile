@@ -1,4 +1,4 @@
-import { AsyncStorage } from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const SET_CURRENCY = 'SET_CURRENCY';
 const CURRENCY_KEY = 'TRACKER_CURRENCY';
@@ -25,9 +25,13 @@ const setCurrency = (currency) => async dispatch => {
 }
 
 const loadCurrencyFromStorage = () => async dispatch => {
-    const currencyFromStorage = await AsyncStorage.getItem(CURRENCY_KEY);
-    if (currencyFromStorage !== null) {
-        dispatch(setCurrency(currencyFromStorage));
+    try {
+        const currencyFromStorage = await AsyncStorage.getItem(CURRENCY_KEY);
+        if (currencyFromStorage !== null) {
+            dispatch(setCurrency(currencyFromStorage));
+        }
+    } catch (err) {
+        console.log(err)
     }
 }
 

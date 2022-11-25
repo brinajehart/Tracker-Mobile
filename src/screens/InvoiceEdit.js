@@ -1,21 +1,23 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { ScrollView, View, Text, ImageBackground } from 'react-native';
+import { ScrollView, View, Text, Image } from 'react-native';
 import Toast from 'react-native-simple-toast';
 import { colors, formTitleStyle } from '../assets/style';
 import Requests from '../api';
 import FloatingButtonSubmit from '../components/FloatingButtonSubmit';
 import { Form } from '../components/form';
+import { useImageAspectRatio } from '../util';
 
 export default ({ navigation }) => {
     const invoiceId = useSelector(state => state.edit?.InvoiceEdit);
     const currency = useSelector(state => state.currency.currency);
     const user = useSelector(state => state.user);
     const dispatch = useDispatch();
-
-    const [invoice, setInvoice] = useState({amount: 0});
+    
+    const [invoice, setInvoice] = useState({ amount: 0 });
     const [loading, setLoading] = useState(false);
     const [stores, setStores] = useState([]);
+    const aspectRatio = useImageAspectRatio(invoice?.image);
 
     useEffect(() => {
         if (invoiceId) {
@@ -56,7 +58,7 @@ export default ({ navigation }) => {
                 <View style={{ backgroundColor: colors.dark, borderRadius: 10, width: '100%', padding: 10, marginTop: 15 }}>
                     <Text style={formTitleStyle}>
                         Invoice data -
-                        <Text style={{ color: colors.primary}}>{` ${currency}`}</Text>
+                        <Text style={{ color: colors.primary }}>{` ${currency}`}</Text>
                     </Text>
                     <View style={{ paddingVertical: 10 }}>
                         <Form.Text
@@ -84,6 +86,19 @@ export default ({ navigation }) => {
                     <Text style={formTitleStyle}>
                         Invoice image
                     </Text>
+                    <View style={{ marginHorizontal: 10, marginBottom: 100 }}>
+                    {invoice?.image && invoice.image !== '/'
+                        ? <Image
+                            style={{
+                                borderRadius: 10,
+                                width: '100%',
+                                aspectRatio
+                            }}
+                            source={{ uri: invoice.image }}
+                        />
+                        : null}
+                    </View>
+                    
                 </View>
             </ScrollView>
             <FloatingButtonSubmit onPress={handleSubmit} title={`${invoiceId ? 'Update' : 'Create'} invoice`} loading={loading} bottomOffset={20} />

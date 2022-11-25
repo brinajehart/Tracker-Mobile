@@ -27,8 +27,8 @@ export default ({ navigation }) => {
 
     async function handleSubmit() {
         setLoading(true);
-        debugger
         console.log(profile);
+        debugger
         //const [status, _] = Requests.updateProfile(user.jwt, profile);
         //if (status === 200) {
         //    dispatch(actions.updateProfile(profile));
