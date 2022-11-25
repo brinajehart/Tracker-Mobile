@@ -36,6 +36,8 @@ export default ({ navigation }) => {
     }
 
     async function handleSubmit() {
+        Toast.show('TODO');
+        return;
         if (groupId) {
             setLoading(true);
             const [status, _] = await Requests.updateGroup(user.jwt, groupId, group.name);

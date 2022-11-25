@@ -8,6 +8,7 @@ import { actions } from '../../store/user';
 import Requests from '../../api';
 import Toast from 'react-native-simple-toast';
 import { Form } from '../../components/form';
+import FeatherIcon from 'react-native-vector-icons/Feather';
 
 export default ({ navigation }) => {
     const user = useSelector(state => state.user);
@@ -25,9 +26,36 @@ export default ({ navigation }) => {
         setProfile({ ...mergedUser });
     }, [user]);
 
+    function TogglePassword() {
+        return (
+            <Button
+                icon={<FeatherIcon name={!visiblePassword ? 'eye-off' : 'eye'} size={25} color={colors.primary} />}
+                title=""
+                buttonStyle={{
+                    width: 60,
+                    height: 60,
+                    borderRadius: 100,
+                    backgroundColor: colors.dark2,
+                }}
+                containerStyle={{
+                    width: 60,
+                    height: 60,
+                    borderRadius: 100,
+                    margin: 15,
+                    position: 'absolute',
+                    bottom: 120,
+                    right: 15,
+                    elevation: 10
+                }}
+                onPress={togglePasswordVisiblity}
+            />
+        )
+    }
+
     async function handleSubmit() {
         setLoading(true);
         console.log(profile);
+        Toast.show("TODO");
         debugger
         //const [status, _] = Requests.updateProfile(user.jwt, profile);
         //if (status === 200) {
@@ -89,7 +117,7 @@ export default ({ navigation }) => {
                     />
                 </View>
             </View>
-            <FloatingButtonSubmit onPress={togglePasswordVisiblity} title={`${visiblePassword ? 'Hide' : 'Show'} password`} loading={loading} bottomOffset={125} backgroundColor={colors.gray} />
+            <TogglePassword />
             <FloatingButtonSubmit onPress={handleSubmit} title={'Update profile'} loading={loading} />
         </>
     )
