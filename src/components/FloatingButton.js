@@ -24,7 +24,10 @@ export default function({ onPress }) {
                 position: 'absolute',
                 bottom: 75,
                 right: 15,
-                elevation: 10
+                elevation: 10,
+                width: 50,
+                height: 50,
+                borderRadius: 100
             }}
             onPress={onPress}
         />

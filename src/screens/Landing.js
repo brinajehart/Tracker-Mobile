@@ -104,6 +104,11 @@ export default function Landing({ navigation }) {
                     height: 60,
                     borderRadius: 100,
                     backgroundColor: colors.primary,
+                }}
+                containerStyle={{
+                    width: 60,
+                    height: 60,
+                    borderRadius: 100,
                     margin: 15
                 }}
                 onPress={() => setModalVisible(true)}
