@@ -20,7 +20,7 @@ export default ({ navigation }) => {
     const [shoppingItems, setShoppingItems] = useState([]);
     const [allShoppingItems, setAllShoppingItems] = useState([]);
     const [search, setSearch] = useState("");
-    const debouncedSearch = useDebounce(search, 500);
+    const debouncedSearch = useDebounce(search, 200);
 
     useEffect(() => { loadShoppingItems() }, []);
     async function loadShoppingItems() {

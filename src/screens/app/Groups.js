@@ -20,7 +20,7 @@ export default ({ navigation }) => {
     const [groups, setGroups] = useState([]);
     const [allGroups, setAllGroups] = useState([]);
     const [search, setSearch] = useState("");
-    const debouncedSearch = useDebounce(search, 500);
+    const debouncedSearch = useDebounce(search, 200);
 
     useEffect(() => { loadGroups() }, []);
     async function loadGroups() {

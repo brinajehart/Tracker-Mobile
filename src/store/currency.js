@@ -27,7 +27,6 @@ const setCurrency = (currency) => async dispatch => {
 const loadCurrencyFromStorage = () => async dispatch => {
     const currencyFromStorage = await AsyncStorage.getItem(CURRENCY_KEY);
     if (currencyFromStorage !== null) {
-        console.log({ currencyFromStorage });
         dispatch(setCurrency(currencyFromStorage));
     }
 }

@@ -38,7 +38,7 @@ export default function Landing({ navigation }) {
                         borderWidth: 2,
                         borderRadius: 20
                     }}
-                    containerStyle={{ width: '100%' }}
+                    containerStyle={{ width: '100%', borderRadius: 20 }}
                     titleStyle={textStyle}
                     onPress={() => move('Login')}
                 />
@@ -52,7 +52,7 @@ export default function Landing({ navigation }) {
                         borderWidth: 2,
                         borderRadius: 20
                     }}
-                    containerStyle={{ width: '100%' }}
+                    containerStyle={{ width: '100%', borderRadius: 20 }}
                     titleStyle={textStyle}
                     onPress={() => move('Register')}
                 />
@@ -72,7 +72,7 @@ export default function Landing({ navigation }) {
                         borderWidth: 2,
                         borderRadius: 20
                     }}
-                    containerStyle={{ width: '100%' }}
+                    containerStyle={{ width: '100%', borderRadius: 20 }}
                     titleStyle={textStyle}
                     onPress={() => navigation.navigate('App')}
                 />
@@ -86,7 +86,7 @@ export default function Landing({ navigation }) {
                         borderWidth: 2,
                         borderRadius: 20
                     }}
-                    containerStyle={{ width: '100%' }}
+                    containerStyle={{ width: '100%', borderRadius: 20 }}
                     titleStyle={textStyle}
                     onPress={logOut}
                 />
@@ -96,20 +96,18 @@ export default function Landing({ navigation }) {
 
     function CurrencyPicker() {
         return (
-            <View style={{ alignItems: 'flex-end', width: '100%' }}>
-                <Button
-                    icon={<CurrencyIcon currency={currency}/>}
-                    title=""
-                    buttonStyle={{
-                        width: 60,
-                        height: 60,
-                        borderRadius: 100,
-                        backgroundColor: colors.primary,
-                        margin: 15
-                    }}
-                    onPress={() => setModalVisible(true)}
-                />
-            </View>
+            <Button
+                icon={<CurrencyIcon currency={currency} />}
+                title=""
+                buttonStyle={{
+                    width: 60,
+                    height: 60,
+                    borderRadius: 100,
+                    backgroundColor: colors.primary,
+                    margin: 15
+                }}
+                onPress={() => setModalVisible(true)}
+            />
         )
     }
 
@@ -119,10 +117,14 @@ export default function Landing({ navigation }) {
             <View style={{ flex: 1 }}>
                 <ImageBackground source={image} resizeMode="cover" style={{ flex: 1, justifyContent: "center" }}>
                     <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'flex-end', margin: 20 }}>
-                        <Text style={{ ...textStyle, fontSize: 50, textAlign: 'center', color: colors.primary }}>
-                            {"Tracker"}
-                        </Text>
-                        <CurrencyPicker />
+                        <View style={{ flex: 1, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'center'}}>
+                            <Text style={{ ...textStyle, fontSize: 50, textAlign: 'center', color: colors.primary, paddingBottom: 10, paddingLeft: 10 }}>
+                                {"Tracker"}
+                            </Text>
+                            <CurrencyPicker />
+                        </View>
+
+
                         {isLoggedIn ? <UserActions /> : <AnyonymousActions />}
                     </View>
 

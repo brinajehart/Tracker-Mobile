@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ScrollView, View, Text, ImageBackground } from 'react-native';
-import { Button } from 'react-native-elements';
 import Toast from 'react-native-simple-toast';
 import { colors, formTitleStyle } from '../assets/style';
 import Requests from '../api';
@@ -19,7 +18,6 @@ export default ({ navigation }) => {
     const [stores, setStores] = useState([]);
 
     useEffect(() => {
-        console.log(invoiceId);
         if (invoiceId) {
             loadInvoice();
             getStores();
@@ -31,7 +29,6 @@ export default ({ navigation }) => {
         const [status, response] = await Requests.GET(`invoice?id=${invoiceId}`, user.jwt);
         setLoading(false);
         if (status == 200) {
-            console.log(response);
             setInvoice(response);
         } else {
             Toast.show("Failed to load invoice!");

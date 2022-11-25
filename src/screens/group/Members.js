@@ -20,7 +20,7 @@ export default ({ navigation }) => {
     const [members, setMembers] = useState([]);
     const [allMembers, setAllMembers] = useState([]);
     const [search, setSearch] = useState("");
-    const debouncedSearch = useDebounce(search, 500);
+    const debouncedSearch = useDebounce(search, 200);
 
     useEffect(() => { loadMembers() }, []);
     async function loadMembers() {

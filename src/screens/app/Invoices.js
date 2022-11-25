@@ -19,7 +19,7 @@ export default ({ navigation }) => {
     const [invoices, setInvoices] = useState([]);
     const [allInvoices, setAllInvoices] = useState([]);
     const [search, setSearch] = useState("");
-    const debouncedSearch = useDebounce(search, 500);
+    const debouncedSearch = useDebounce(search, 200);
 
     useEffect(() => { loadInvoices() }, []);
     async function loadInvoices() {

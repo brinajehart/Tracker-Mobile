@@ -26,9 +26,14 @@ export const CURRENCY_CONVERSIONS = {
     'GBP': 0.87
 };
 
+export function fromCurrencyToEuro(amount, currency="EUR") {
+    const convertedAmount = amount * (1 / CURRENCY_CONVERSIONS[currency]);
+    return convertedAmount;
+}
+
 export function convertAmount(amount, currency="EUR") {
     const convertedAmount = amount * CURRENCY_CONVERSIONS[currency];
-    return convertedAmount;
+    return convertedAmount / 100;
 }
 
 export function formatAmount(amount, currency="EUR") {
