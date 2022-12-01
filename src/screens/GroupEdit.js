@@ -8,9 +8,7 @@ import Requests from '../api';
 import FloatingButtonSubmit from '../components/FloatingButtonSubmit';
 
 export default ({ navigation }) => {
-    const isLoading = useSelector(state => state.user.isFetching === true);
     const user = useSelector(state => state.user);
-    const dispatch = useDispatch();
     const groupId = useSelector(state => state.edit?.Group);
 
     const [group, setGroup] = useState();
@@ -36,8 +34,6 @@ export default ({ navigation }) => {
     }
 
     async function handleSubmit() {
-        Toast.show('TODO');
-        return;
         if (groupId) {
             setLoading(true);
             const [status, _] = await Requests.updateGroup(user.jwt, groupId, group.name);
@@ -75,7 +71,7 @@ export default ({ navigation }) => {
                     />
                 </View>
             </View>
-            <FloatingButtonSubmit onPress={handleSubmit} title={(groupId ? 'Update' : 'Create') + " group"} />
+            <FloatingButtonSubmit onPress={handleSubmit} title={(groupId ? 'Update' : 'Create') + " group"} loading={loading} />
         </>
     )
 }
