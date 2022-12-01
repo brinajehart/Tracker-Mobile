@@ -1,30 +1,25 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { View, Text, ImageBackground, ToastAndroid } from 'react-native';
+import { ScrollView, View, Text } from 'react-native';
 import { Input, Button } from 'react-native-elements';
 import { colors, formTitleStyle } from '../../assets/style';
 import FloatingButtonSubmit from '../../components/FloatingButtonSubmit';
 import { actions } from '../../store/user';
-import Requests from '../../api';
-import Toast from 'react-native-simple-toast';
 import { Form } from '../../components/form';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 
 export default ({ navigation }) => {
     const user = useSelector(state => state.user);
-    const [profile, setProfile] = useState({});
-    const [loading, setLoading] = useState(false);
+    const loading = useSelector(state => state.user.isFetching);
+
+    const [profile, setProfile] = useState({
+        ...user,
+        old_email: user?.email ?? '',
+        old_password: ''
+    });
+
     const [visiblePassword, setVisiblePassword] = useState(false);
     const dispatch = useDispatch();
-
-    useEffect(() => {
-        const mergedUser = { ...profile, ...user };
-        if (!profile?.old_email) {
-            mergedUser['old_email'] = user?.email;
-        }
-
-        setProfile({ ...mergedUser });
-    }, [user]);
 
     function TogglePassword() {
         return (
@@ -53,18 +48,7 @@ export default ({ navigation }) => {
     }
 
     async function handleSubmit() {
-        setLoading(true);
-        console.log(profile);
-        Toast.show("TODO");
-        debugger
-        //const [status, _] = Requests.updateProfile(user.jwt, profile);
-        //if (status === 200) {
-        //    dispatch(actions.updateProfile(profile));
-        //    Toast.show('Successfuly updated profile!')
-        //} else {
-        //    Toast.show('Failed to update profile!');
-        //}
-        setLoading(false);
+        dispatch(actions.updateProfile(profile))
     }
 
     function togglePasswordVisiblity() {
@@ -73,7 +57,7 @@ export default ({ navigation }) => {
 
     return (
         <>
-            <View style={{ flex: 1, backgroundColor: colors.dark, justifyContent: 'flex-start', alignItems: 'center', paddingTop: 15 }}>
+            <ScrollView style={{ flex: 1, backgroundColor: colors.dark, paddingTop: 15 }}>
                 <View style={{ backgroundColor: colors.dark, borderRadius: 10, width: '100%', padding: 10 }}>
                     <Text style={formTitleStyle}>
                         Profile data
@@ -116,7 +100,7 @@ export default ({ navigation }) => {
                         margin={5}
                     />
                 </View>
-            </View>
+            </ScrollView>
             <TogglePassword />
             <FloatingButtonSubmit onPress={handleSubmit} title={'Update profile'} loading={loading} />
         </>

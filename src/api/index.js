@@ -1,7 +1,4 @@
-// import axios from "axios";
-
-const API_URI = 'https://c200-2001-1470-fac4-529-2578-6cf8-4df3-8146.eu.ngrok.io';
-
+const API_URI = 'http://localhost:5055';
 
 function generateFormData(jsonData) {
     const form_data = new FormData();

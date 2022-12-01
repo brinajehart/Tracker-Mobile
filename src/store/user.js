@@ -143,7 +143,7 @@ const register = user => async dispatch => {
     dispatch({ type: REGISTER });
 
     try {
-        const [status, response] = await Requests.register(user);
+        const [status, _] = await Requests.register(user);
         if (status === 200) {
             dispatch({ type: REGISTER_COMPLETE })
             dispatch(login(user))
@@ -159,7 +159,15 @@ const register = user => async dispatch => {
 
 const updateProfile = (user) => async dispatch => {
     dispatch({ type: PROFILE_UPDATE });
-    dispatch({ type: PROFILE_UPDATE_COMPLETE, payload: { email: user.email, fullname: user.fullname } });
+
+    const [status, _] = await Requests.updateProfile(user.jwt, user);
+    if (status === 200) {
+        dispatch({ type: PROFILE_UPDATE_COMPLETE, payload: { email: user.email, fullname: user.fullname } });
+        Toast.show('Successfuly updated profile!');
+    } else {
+        Toast.show('Failed to update profile!');
+        dispatch({ type: PROFILE_UPDATE_ERROR });
+    }
 }
 
 const logOut = () => {
