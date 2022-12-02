@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { ScrollView, View, Text, Image, PermissionsAndroid, Platform } from 'react-native';
 import { Button } from 'react-native-elements';
 import Toast from 'react-native-simple-toast';
@@ -7,34 +7,44 @@ import { colors, formTitleStyle } from '../assets/style';
 import Requests from '../api';
 import FloatingButtonSubmit from '../components/FloatingButtonSubmit';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
-import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import { launchCamera } from 'react-native-image-picker';
 import { Form } from '../components/form';
-import { useImageAspectRatio } from '../util';
+import { useImageAspectRatio, fromCurrencyToEuro } from '../util';
 
 export default ({ navigation }) => {
     const invoiceId = useSelector(state => state.edit?.InvoiceEdit);
     const currency = useSelector(state => state.currency.currency);
+    const groupId = useSelector(state => state.edit?.Group);
     const user = useSelector(state => state.user);
-    const dispatch = useDispatch();
 
-    const [invoice, setInvoice] = useState({ amount: 0 });
-    const [loading, setLoading] = useState(false);
+    const [invoice, setInvoice] = useState({
+        amount: 0,
+        group_id: groupId
+    });
+    const [loading, setLoading] = useState(true);
     const [stores, setStores] = useState([]);
     const aspectRatio = useImageAspectRatio(invoice?.image);
 
     useEffect(() => {
         if (invoiceId) {
             loadInvoice();
-            getStores();
         }
     }, [invoiceId]);
+
+    useEffect(() => {
+        getStores();
+    }, []);
 
     async function loadInvoice() {
         setLoading(true);
         const [status, response] = await Requests.GET(`invoice?id=${invoiceId}`, user.jwt);
         setLoading(false);
         if (status == 200) {
-            setInvoice(response);
+            setInvoice({
+                ...invoice,
+                ...response,
+                image: response?.image ?? '/'
+            });
         } else {
             Toast.show("Failed to load invoice!");
             console.log('Error occured while fetching invoice data!', status);
@@ -53,6 +63,29 @@ export default ({ navigation }) => {
 
     async function handleSubmit() {
         setLoading(true);
+        const invoiceData = {
+            ...invoice, 
+            amount: fromCurrencyToEuro(invoice.amount, currency),
+            image: invoice?.image
+        };
+
+        if (invoiceId) {
+            const [status, _] = await Requests.updateInvoice(user.jwt, invoiceData);
+            if (status === 200) {
+                Toast.show('Invoice update success!');
+            } else {
+                Toast.show('Failed to update invoice!');
+            }
+        } else {
+            const [status, _] = await Requests.createInvoice(user.jwt, invoiceData);
+            if (status === 200) {
+                Toast.show('New invoice was created!');
+            } else {
+                Toast.show('Failed to create invoice!');
+            }
+        }
+        
+        setLoading(false);
     }
 
     async function getImage() {
@@ -60,8 +93,8 @@ export default ({ navigation }) => {
         const isStoragePermitted = await requestExternalWritePermission();
         if (isCameraPermitted && isStoragePermitted) {
             const options = {
-                maxHeight: 600,
-                maxWidth: 600,
+                maxHeight: 300,
+                maxWidth: 300,
                 saveToPhotos: true,
                 mediaType: 'photo',
                 includeBase64: true,
@@ -139,7 +172,13 @@ export default ({ navigation }) => {
                                 width: 50,
                                 height: 50,
                                 borderRadius: 100,
-                                backgroundColor: colors.submit,
+                                backgroundColor: colors.primary,
+                            }}
+                            containerStyle={{
+                                elevation: 10,
+                                width: 50,
+                                height: 50,
+                                borderRadius: 100,
                             }}
                             onPress={openCamera}
                         />

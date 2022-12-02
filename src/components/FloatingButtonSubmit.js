@@ -1,7 +1,6 @@
 import React from 'react'
 import { Button } from 'react-native-elements';
 import { colors } from '../assets/style';
-import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
 export default function({ onPress, title, loading, bottomOffset, backgroundColor }) {
     return (
@@ -16,6 +15,7 @@ export default function({ onPress, title, loading, bottomOffset, backgroundColor
                 position: 'absolute',
                 bottom: bottomOffset || 75,
                 right: 15,
+                borderRadius: 20,
                 elevation: 10
             }}
             onPress={onPress}
