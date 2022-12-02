@@ -9,7 +9,7 @@ import FloatingButtonSubmit from '../components/FloatingButtonSubmit';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import { launchCamera } from 'react-native-image-picker';
 import { Form } from '../components/form';
-import { useImageAspectRatio, fromCurrencyToEuro } from '../util';
+import { useImageAspectRatio, fromCurrencyToEuro, convertAmount } from '../util';
 
 export default ({ navigation }) => {
     const invoiceId = useSelector(state => state.edit?.InvoiceEdit);
@@ -21,7 +21,7 @@ export default ({ navigation }) => {
         amount: 0,
         group_id: groupId
     });
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [stores, setStores] = useState([]);
     const aspectRatio = useImageAspectRatio(invoice?.image);
 
@@ -43,6 +43,7 @@ export default ({ navigation }) => {
             setInvoice({
                 ...invoice,
                 ...response,
+                amount: response?.amount ? (convertAmount(response.amount, currency) * 100) : 0,
                 image: response?.image ?? '/'
             });
         } else {
