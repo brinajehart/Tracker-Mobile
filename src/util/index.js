@@ -52,7 +52,7 @@ export function useImageAspectRatio(imageUrl) {
     const [aspectRatio, setAspectRatio] = useState(1);
   
     useEffect(() => {
-      if (!imageUrl || imageUrl === '/') {
+      if (!imageUrl || !imageUrl.includes('data:image')) {
         return;
       }
   

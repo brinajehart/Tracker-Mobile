@@ -43,7 +43,7 @@ export default ({ navigation }) => {
             setInvoice({
                 ...invoice,
                 ...response,
-                amount: response?.amount ? (convertAmount(response.amount, currency) * 100) : 0,
+                amount: response?.amount ? parseInt(Math.round(convertAmount(response.amount, currency) * 100)) : 0,
                 image: response?.image ?? '/'
             });
         } else {
@@ -185,7 +185,7 @@ export default ({ navigation }) => {
                         />
                     </View>
                     <View style={{ marginHorizontal: 10, marginBottom: 100 }}>
-                        {invoice?.image && invoice.image !== '/'
+                        {invoice?.image && invoice.image.includes('data:image')
                             ? <Image
                                 style={{
                                     borderRadius: 10,
