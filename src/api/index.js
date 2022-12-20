@@ -1,4 +1,5 @@
-const API_URI = 'http://localhost:5055';
+//const API_URI = 'http://localhost:5055';
+const API_URI = 'https://198a-188-197-9-248.eu.ngrok.io';
 
 function generateFormData(jsonData) {
     const form_data = new FormData();

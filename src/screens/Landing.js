@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ImageBackground, Text, View } from "react-native";
+import { Image, Text, View, ImageBackground } from "react-native";
 import { Button } from 'react-native-elements';
 import { useDispatch, useSelector } from 'react-redux'
 import { actions } from "../store/user";
@@ -7,11 +7,12 @@ import CurrencyPickerModal from "../components/modals/CurrencyPickerModal";
 import CurrencyIcon from "../components/CurrencyIcon";
 
 import { colors } from "../assets/style";
-const image = require('../assets/landing.png');
+const logo = require('../assets/logo.png');
+const landingImage = require('../assets/landing_v2.png');
 
 
 export default function Landing({ navigation }) {
-    const textStyle = { color: colors.primary, fontSize: 16, fontWeight: 'bold' };
+    const textStyle = { color: colors.submit, fontSize: 16, fontWeight: 'bold' };
     const isLoggedIn = useSelector(state => state.user.isLoggedIn && state.user.jwt !== null);
     const currency = useSelector(state => state.currency.currency);
     const [modalVisible, setModalVisible] = useState(false);
@@ -34,7 +35,7 @@ export default function Landing({ navigation }) {
                     buttonStyle={{
                         width: '100%',
                         backgroundColor: 'transparent',
-                        borderColor: colors.primary,
+                        borderColor: colors.submit,
                         borderWidth: 2,
                         borderRadius: 20
                     }}
@@ -48,7 +49,7 @@ export default function Landing({ navigation }) {
                     buttonStyle={{
                         width: '100%',
                         backgroundColor: 'transparent',
-                        borderColor: colors.primary,
+                        borderColor: colors.submit,
                         borderWidth: 2,
                         borderRadius: 20
                     }}
@@ -68,7 +69,7 @@ export default function Landing({ navigation }) {
                     buttonStyle={{
                         width: '100%',
                         backgroundColor: 'transparent',
-                        borderColor: colors.primary,
+                        borderColor: colors.submit,
                         borderWidth: 2,
                         borderRadius: 20
                     }}
@@ -82,7 +83,7 @@ export default function Landing({ navigation }) {
                     buttonStyle={{
                         width: '100%',
                         backgroundColor: 'transparent',
-                        borderColor: colors.primary,
+                        borderColor: colors.submit,
                         borderWidth: 2,
                         borderRadius: 20
                     }}
@@ -103,7 +104,7 @@ export default function Landing({ navigation }) {
                     width: 60,
                     height: 60,
                     borderRadius: 100,
-                    backgroundColor: colors.primary,
+                    backgroundColor: colors.submit,
                 }}
                 containerStyle={{
                     width: 60,
@@ -119,13 +120,11 @@ export default function Landing({ navigation }) {
     return (
         <>
             <CurrencyPickerModal visible={modalVisible} setVisible={setModalVisible} />
-            <View style={{ flex: 1 }}>
-                <ImageBackground source={image} resizeMode="cover" style={{ flex: 1, justifyContent: "center" }}>
+            <ImageBackground source={landingImage} resizeMode="cover" style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center', width: '100%' }}>
+                <Image source={logo} style={{ height: 250, width: 330, marginTop: 100 }} />
+                <View style={{ flex: 1, justifyContent: "center", width: '100%' }}>
                     <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'flex-end', margin: 20 }}>
-                        <View style={{ flex: 1, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'center'}}>
-                            <Text style={{ ...textStyle, fontSize: 50, textAlign: 'center', color: colors.primary, paddingBottom: 10, paddingLeft: 10 }}>
-                                {"Tracker"}
-                            </Text>
+                        <View style={{ flex: 1, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'flex-end' }}>
                             <CurrencyPicker />
                         </View>
 
@@ -133,8 +132,8 @@ export default function Landing({ navigation }) {
                         {isLoggedIn ? <UserActions /> : <AnyonymousActions />}
                     </View>
 
-                </ImageBackground>
-            </View>
+                </View>
+            </ImageBackground>
         </>
     );
 }
